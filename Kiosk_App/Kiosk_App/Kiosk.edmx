@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Priyanka_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BILL_PAYMENTS">
+          <Key>
+            <PropertyRef Name="PAYMENT_ID" />
+          </Key>
+          <Property Name="PAYMENT_ID" Type="int" Nullable="false" />
+          <Property Name="CUST_REG_ID" Type="int" Nullable="false" />
+          <Property Name="BILLER" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="AMOUNT" Type="decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="DATE_TIME" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CUSTOMERS">
+          <Key>
+            <PropertyRef Name="CUST_REG_ID" />
+          </Key>
+          <Property Name="CUST_REG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CUST_NAME" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CUST_EMAIL" Type="varchar" MaxLength="255" />
+          <Property Name="CUST_MOBILE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_CUST_BILL_PAYMENTS">
+          <End Role="CUSTOMERS" Type="Self.CUSTOMERS" Multiplicity="1" />
+          <End Role="BILL_PAYMENTS" Type="Self.BILL_PAYMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMERS">
+              <PropertyRef Name="CUST_REG_ID" />
+            </Principal>
+            <Dependent Role="BILL_PAYMENTS">
+              <PropertyRef Name="CUST_REG_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Priyanka_DBModelStoreContainer">
+          <EntitySet Name="BILL_PAYMENTS" EntityType="Self.BILL_PAYMENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CUSTOMERS" EntityType="Self.CUSTOMERS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CUST_BILL_PAYMENTS" Association="Self.FK_CUST_BILL_PAYMENTS">
+            <End Role="CUSTOMERS" EntitySet="CUSTOMERS" />
+            <End Role="BILL_PAYMENTS" EntitySet="BILL_PAYMENTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Priyanka_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BILL_PAYMENTS">
+          <Key>
+            <PropertyRef Name="PAYMENT_ID" />
+          </Key>
+          <Property Name="PAYMENT_ID" Type="Int32" Nullable="false" />
+          <Property Name="CUST_REG_ID" Type="Int32" Nullable="false" />
+          <Property Name="BILLER" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AMOUNT" Type="Decimal" Precision="9" Scale="2" Nullable="false" />
+          <Property Name="DATE_TIME" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CUSTOMER" Relationship="Self.FK_CUST_BILL_PAYMENTS" FromRole="BILL_PAYMENTS" ToRole="CUSTOMERS" />
+        </EntityType>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUST_REG_ID" />
+          </Key>
+          <Property Name="CUST_REG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CUST_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUST_EMAIL" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CUST_MOBILE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BILL_PAYMENTS" Relationship="Self.FK_CUST_BILL_PAYMENTS" FromRole="CUSTOMERS" ToRole="BILL_PAYMENTS" />
+        </EntityType>
+        <Association Name="FK_CUST_BILL_PAYMENTS">
+          <End Role="CUSTOMERS" Type="Self.CUSTOMER" Multiplicity="1" />
+          <End Role="BILL_PAYMENTS" Type="Self.BILL_PAYMENTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMERS">
+              <PropertyRef Name="CUST_REG_ID" />
+            </Principal>
+            <Dependent Role="BILL_PAYMENTS">
+              <PropertyRef Name="CUST_REG_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Priyanka_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BILL_PAYMENTS" EntityType="Self.BILL_PAYMENTS" />
+          <EntitySet Name="CUSTOMERS" EntityType="Self.CUSTOMER" />
+          <AssociationSet Name="FK_CUST_BILL_PAYMENTS" Association="Self.FK_CUST_BILL_PAYMENTS">
+            <End Role="CUSTOMERS" EntitySet="CUSTOMERS" />
+            <End Role="BILL_PAYMENTS" EntitySet="BILL_PAYMENTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Priyanka_DBModelStoreContainer" CdmEntityContainer="Priyanka_DBEntities">
+          <EntitySetMapping Name="BILL_PAYMENTS">
+            <EntityTypeMapping TypeName="Priyanka_DBModel.BILL_PAYMENTS">
+              <MappingFragment StoreEntitySet="BILL_PAYMENTS">
+                <ScalarProperty Name="PAYMENT_ID" ColumnName="PAYMENT_ID" />
+                <ScalarProperty Name="CUST_REG_ID" ColumnName="CUST_REG_ID" />
+                <ScalarProperty Name="BILLER" ColumnName="BILLER" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="DATE_TIME" ColumnName="DATE_TIME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CUSTOMERS">
+            <EntityTypeMapping TypeName="Priyanka_DBModel.CUSTOMER">
+              <MappingFragment StoreEntitySet="CUSTOMERS">
+                <ScalarProperty Name="CUST_REG_ID" ColumnName="CUST_REG_ID" />
+                <ScalarProperty Name="CUST_NAME" ColumnName="CUST_NAME" />
+                <ScalarProperty Name="CUST_EMAIL" ColumnName="CUST_EMAIL" />
+                <ScalarProperty Name="CUST_MOBILE" ColumnName="CUST_MOBILE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,114 @@
+﻿<script id='main' type="text/html" aria-describedby='Customer Self Service Kiosk'>
+    <div class='text-center'>
+        <button class='btn btn-primary btn-lg btn-block text-uppercase' onclick="redirectTo('accountManagement')">Account Management <i class='fa fa-user-o'></i></button>
+    </div>
+    <div class='text-center'>
+        <button class='btn btn-lg btn-primary btn-block text-uppercase aria-label="Second group' onclick="redirectTo('billPaymentHistory')" disabled>Bill Payment <i class='fa fa-credit-card'></i></button>
+    </div>
+    <div class='text-center'>
+        <button class='btn btn-lg btn-primary btn-block text-uppercase' onclick="redirectTo('queryManagement')">Query Management <i class='fa fa-search'></i></button>
+    </div>
+</script>
+
+<script id="accountManagement" type="text/html" aria-describedby='Account Management'>
+        <div class='text-center'>
+            <button class='btn btn-lg btn-primary text-uppercase' onclick="redirectTo('customerRegistration')">Register Customer <i class='fa fa-user-plus'></i></button>
+        </div>
+        <div class='text-center'>
+            <button class='btn btn-lg btn-primary text-uppercase' onclick="redirectTo('customerRegistration')" disabled>Update Customer Details <i class='fa fa-edit'></i></button>
+        </div>
+        <div class='text-center'>
+            <button class='btn btn-lg btn-primary text-uppercase' onclick="redirectTo('main')"><i class='fa fa-angle-left'></i> Back</button>
+        </div>
+</script>
+
+<script id="queryManagement" type="text/html" aria-describedby='Query Management'>
+    <div class='row'>
+        <div class='form-group'>
+            <label for='searchId'>Customer Reg. No.</label>
+            <input type='text' class='form-control' id='searchId' name='searchId' placeholder="Enter Customer Reg. No." />
+        </div>
+        <div class='text-center'>
+            <button class='btn btn-lg btn-primary text-uppercase' onclick="redirectTo('main')"><i class='fa fa-angle-left'></i> Back</button>
+        </div>
+        <div class='text-center'>
+            <button class='btn btn-lg btn-primary text-uppercase' onclick="search()"><i class='fa fa-search'></i>Search</button>
+        </div>
+    </div>
+</script>
+
+<script id="customerRegistration" type="text/html" aria-describedby='Customer Registration'>
+    <div id="customer">
+        <div class='form-group'>
+            <label for='CustomerName'>Customer Name</label>
+            <input type='text' class='form-control' id='CustomerName' name='CUST_NAME' value='${CUST_NAME}' placeholder='Customer Full Name'>
+        </div>
+        <div class='form-group'>
+            <label for='Email'>Email</label>
+            <input type='email' class='form-control' id='Email' name='CUST_EMAIL' value='${CUST_EMAIL}' aria-describedby='emailHelp' placeholder='Customer Email Address'>
+        </div>
+
+        <div class='form-group'>
+            <label for='Mobile'>Mobile</label>
+            <input type='text' class='form-control' id='Mobile' name='CUST_MOBILE' value='${CUST_MOBILE}' aria-describedby='mobileHelp' placeholder='Customer Mobile No.'>
+        </div>
+        <button type='button' class='btn btn-success text-uppercase' onclick="save()">Save <i class='fa fa-check'></i></button>
+        <button type='button' class='btn btn-primary text-uppercase' onclick="redirectTo('accountManagement')"><i class='fa fa-angle-left'></i> Back</button>
+    </div>
+</script>
+
+<script id="customerDetails" type="text/html">
+    <div class='form-group'>
+        <div class='form-group'>
+            <label>Customer Reg. No.</label>
+            <label class="badge badge-info">${CUST_REG_ID}</label>
+        </div>
+        <div class='form-group'>
+            <label>Customer Name</label>
+            <label>${CUST_NAME}</label>
+        </div>
+        <div class='form-group'>
+            <label>Customer Email</label>
+            <label>${CUST_EMAIL}</label>
+        </div>
+        <div class='form-group'>
+            <label>Customer Mobile</label>
+            <label>${CUST_MOBILE}</label>
+        </div>
+        <button type='button' class='btn btn-success text-uppercase' onclick="redirectTo('main')">Done <i class='fa fa-check'></i></button>
+    </div>
+</script>
+
+<script id="billPaymentHistory" type="text/html" aria-describedby='Bill Payment History'>
+    <div>
+        <div>
+            <label>Customer Reg. No.: <span class='badge badge-info'>${CustomerId}</span></label>
+            <label>Name: <span>${Name}</span></label>
+        </div>
+        <div>
+            <table class='table-striped'>
+                <thead>
+                    <tr>
+                        <th scope='col'>#</th>
+                        <th scope='col'>BILLER</th>
+                        <th scope='col'>AMOUNT</th>
+                        <th scope='col'>DATE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{each(i) BillPayments}}
+                    <tr>
+                        <th scope='row'>${PaymentId}</th>
+                        <td>${Biller}</td>
+                        <td>${Amount}</td>
+                        <td>${DateTime}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button type='button' class='btn btn-primary text-uppercase' onclick="redirectTo('main')"><i class='fa fa-angle-left'></i> Back</button>
+        </div>
+    </div>
+</script>
